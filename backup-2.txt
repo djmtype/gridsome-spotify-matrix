@@ -1,0 +1,117 @@
+<template>
+	<Layout>
+		<h1>Spotify</h1>
+
+		<ul class="playlist-tracks">
+
+      <li v-for="(item, index) in $page.oneGraph.spotify.me.playlistsConnection.nodes" :key="index">
+
+			
+				{{ item.name }}
+
+        <ol>
+				<li v-for="track in item.tracks" :key="track.playlistsConnection">
+					<g-link :to="track.externalUrls.spotify">
+						{{ track.name }} by
+						<!-- <span v-for="artist in track.artists" :key="artist.tracks">
+							{{ artist.name }}
+						</span> -->
+					</g-link>
+					<br />
+					<!-- {{ track.durationMs }} -->
+					<!-- {{ millisToMinutesAndSeconds(track.durationMs) }} -->
+				</li>
+			</ol>
+
+				<!-- <ol>
+					<li v-for="track in $page.oneGraph.spotify.me.playlistsConnection.nodes.tracks" :key="track">
+						{{ track.name }}
+					</li>
+				</ol> -->
+			</li>
+		</ul>
+	</Layout>
+</template>
+
+
+<page-query>
+
+query MyQuery {
+	oneGraph {
+		spotify {
+			me {
+				playlistsConnection {
+					nodes {
+						public
+						name
+						id
+						externalUrls {
+							spotify
+						}
+						images {
+							height
+							url
+							width
+						}
+						tracks {
+							name
+							durationMs
+							artists {
+								name
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+</page-query>
+
+<script>
+// import slugify from '@sindresorhus/slugify'
+
+export default {
+	metaInfo: {
+		title: "Hello, world!",
+	},
+	data() {
+		return {
+			search: "",
+		};
+	},
+
+	computed: {
+		searchResults() {
+			return this.$page.oneGraph.spotify.me.playlists.filter((playlist) => {
+				return (
+					playlist.name
+						.toLowerCase()
+						.includes(this.search.toLowerCase().trim()) &&
+					playlist.public == true
+				);
+			});
+		},
+
+		// filteredList() {
+		// 	return this.$page.oneGraph.spotify.me.playlists.filter((item) => {
+		// 		return item.public == true;
+		// 	});
+		// },
+	},
+	//   methods: {
+	//   playlistSlug(string) {
+	//     return slugify(string)
+	//   }
+	// }
+};
+</script>
+
+<style>
+.home-links a {
+	margin-right: 1rem;
+}
+</style>

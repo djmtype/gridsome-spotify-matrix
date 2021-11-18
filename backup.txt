@@ -1,0 +1,32 @@
+	<template>
+		<div
+				v-for="(item, index) in $page.oneGraph.spotify.me.playlistsConnection.nodes"
+				:key="index"
+			>
+				<h2>
+					<g-link :to="item.externalUrls.spotify">{{ item.name }}</g-link>
+				</h2>
+				<!-- <img
+					v-if="item.images.length > 1"
+					:src="item.images[1].url"
+					:width="300"
+					:height="300"
+				/>
+				<img v-else :src="item.images[0].url" :width="300" :height="300" /> -->
+				<!-- <img v-if="item.images[1]" :src="item.images[1].url" :width="300" :height="300" />
+		<img v-else :src="item.images[0].url" :width="300" :height="300" /> -->
+				<ol>
+					<li v-for="track in item.tracksConnection.nodes" :key="track.playlistsConnection">
+		
+							{{ track.name }} … by
+							<span v-for="artist in track.artists" :key="artist.tracks">
+								{{ artist.name }}
+							</span>
+		
+						<!-- <br />
+		
+						{{ millisToMinutesAndSeconds(track.durationMs) }} -->
+					</li>
+				</ol>
+			</div>
+	</template>

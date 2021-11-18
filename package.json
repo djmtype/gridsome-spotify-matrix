@@ -1,0 +1,14 @@
+{
+  "name": "gridsome-spotify-matrix",
+  "private": true,
+  "scripts": {
+    "develop": "gridsome develop",
+    "explore": "gridsome explore",
+    "build": "gridsome build"
+  },
+  "dependencies": {
+    "@gridsome/source-graphql": "^0.1.0",
+    "graphql": "github:djmtype/graphql",
+    "gridsome": "^0.7.0"
+  }
+}

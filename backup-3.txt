@@ -1,0 +1,120 @@
+<template>
+<Layout>
+	<div>
+		<h1 v-html="$page.oneGraph.spotify.me.id" />
+
+    	<div class="entry-list">
+        <input
+          type="text"
+          name="search"
+          id="search"
+          placeholder="Type something..."
+          v-model="search"
+        />
+        <article v-for="playlist in searchResults" :key="playlist.id">
+          <h3>{{ playlist.name }}</h3>
+
+          	<ol>
+					<li v-for="track in playlist.tracksConnection.nodes" :key="track.playlistsConnection">
+		
+							{{ track.name }} … by
+							<span v-for="artist in track.artists" :key="artist.tracks">
+								{{ artist.name }}
+							</span>
+		
+						<!-- <br />
+		
+						{{ millisToMinutesAndSeconds(track.durationMs) }} -->
+					</li>
+				</ol>
+         
+        </article>
+      </div>
+
+	
+	</div>
+</Layout>
+</template>
+
+<page-query>
+{
+  oneGraph {
+    spotify {
+      me {
+        id
+        playlistsConnection {
+          nodes {
+            id
+            public
+            name
+            externalUrls {
+              spotify
+            }
+            tracksConnection {
+              nodes {
+                id
+                name
+                durationMs
+                artists {
+                  name
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+</page-query>
+
+
+
+<script>
+export default {
+	metaInfo: {
+		title: 'Playlists',
+	},
+  data() {
+		return {
+			search: "",
+		};
+	},
+  computed: {
+    searchResults() {
+			return this.$page.oneGraph.spotify.me.playlistsConnection.nodes.filter((playlist) => {
+				return (
+					playlist.name
+						.toLowerCase()
+						.includes(this.search.toLowerCase().trim()) &&
+					playlist.public == true
+				);
+			});
+		}
+  // searchResults() {
+	// 		return this.$page.oneGraph.spotify.me.playlistsConnection.nodes.filter((playlist) => {
+	// 			return (
+	// 				playlist.name
+	// 					.toLowerCase()
+	// 					.includes(this.search.toLowerCase().trim()) &&
+	// 				playlist.public == true
+	// 			);
+	// 		});
+	// 	}
+  },
+	methods: {
+		millisToMinutesAndSeconds: function (millis) {
+			var minutes = Math.floor(millis / 60000)
+			var seconds = ((millis % 60000) / 1000).toFixed(0)
+			return minutes + ':' + (seconds < 10 ? '0' : '') + seconds
+		},
+	},
+}
+</script>
+
+<style>
+li {
+	margin-bottom: 1.5rem;
+}
+</style>
