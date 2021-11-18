@@ -8,11 +8,7 @@
   },
   "dependencies": {
     "@gridsome/source-graphql": "^0.1.0",
-    "@netlify/functions": "^0.9.0",
     "graphql": "github:djmtype/graphql",
     "gridsome": "^0.7.0"
-  },
-  "devDependencies": {
-    "netlify-cli": "^7.0.0"
   }
 }
