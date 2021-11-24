@@ -10,7 +10,7 @@ module.exports = {
     {
       use: '@gridsome/source-graphql',
       options: {
-        url: 'https://serve.onegraph.com/graphql?app_id=f1fcae98-6b30-456d-8b8b-6b09db957a48',
+        url: `https://serve.onegraph.com/graphql?app_id=${process.env.SPOTIFY_APP_ID}`,
         fieldName: 'oneGraph',
         typeName: 'ONEGRAPH',
 
