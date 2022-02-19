@@ -1,0 +1,29 @@
+query latestTracks @netlify(id: """e7a65cb8-d892-4a9f-8baa-c593d83e5055""", doc: """An example query to start with.""") {
+  me {
+    spotify {
+      recentlyPlayed {
+        nodes {
+          track {
+            name
+            previewUrl
+            externalUrls {
+              spotify
+            }
+            artists {
+              name
+              externalUrls {
+                spotify
+              }
+            }
+          }
+          playedAt
+          context {
+            externalUrls {
+              spotify
+            }
+          }
+        }
+      }
+    }
+  }
+}
