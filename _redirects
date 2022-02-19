@@ -1,1 +1,4 @@
-/api/* /.netlify/functions/:splat 200!
+/api/* /.netlify/functions/:splat 200
+/api/* https://gridsome-spotify-matrix.netlify.app/api/:splat 200
+
+
