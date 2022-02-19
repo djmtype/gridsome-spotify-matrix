@@ -1,0 +1,4 @@
+redirects:
+  - from: /.netlify/functions/latestTracks
+    to: /api/latestTracks
+    temporary: false
