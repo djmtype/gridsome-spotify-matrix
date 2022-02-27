@@ -4,11 +4,31 @@
 
 // Changes here require a server restart.
 // To restart press CTRL + C in terminal and run `gridsome develop`
+const axios = require('axios');
 
 module.exports = function (api) {
-  api.loadSource(({ addCollection }) => {
-    // Use the Data Store API here: https://gridsome.org/docs/data-store-api/
+  api.loadSource(async actions => {
+    const { data } = await axios.get('https://gridsome-spotify-matrix.netlify.app/api/latestTracks')
+
+    const contentType = actions.addCollection({
+      typeName: 'LatestTracks'
+    })
+
+    // console.log(data)
+
+    for (const track of data.latestTracksData.me.spotify.recentlyPlayed.nodes) {
+      contentType.addNode({
+        // id: track.id,
+        // name: track.name
+         ...track
+      })
+      
+    }
+
+    // console.log(data.latestTracksData.me.spotify.recentlyPlayed)
+    
   })
+
 
   api.createPages(({ createPage }) => {
     // Use the Pages API here: https://gridsome.org/docs/pages-api/
