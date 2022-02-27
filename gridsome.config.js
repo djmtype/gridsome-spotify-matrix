@@ -10,13 +10,13 @@ module.exports = {
     {
       use: '@gridsome/source-graphql',
       options: {
-        url: `https://serve.onegraph.com/graphql?app_id=${process.env.SPOTIFY_APP_ID}`,
+        url: `https://gridsome-spotify-matrix.netlify.app/api/latestTracks`,
         fieldName: 'oneGraph',
         typeName: 'ONEGRAPH',
 
-        headers: {
-          Authorization: `Bearer ${process.env.SPOTIFY_TOKEN}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${process.env.SPOTIFY_TOKEN}`,
+        // },
 				// remark: {
         //   plugins: [
 				// 		'@silvenon/remark-smartypants',

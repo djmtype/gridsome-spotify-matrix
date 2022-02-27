@@ -1,86 +1,12 @@
 <template>
 	<Layout>
 		<div>
-			<div class="entry-list">
-				<form>
-					<input
-						type="search"
-						name="search"
-						id="search"
-						placeholder="Type something..."
-						v-model="search"
-					/>
-				</form>
-				<article v-for="playlist in searchResults" :key="playlist.id">
-					<div class="entry">
-						<h2>{{ playlist.name }}</h2>
-					</div>
-
-					<div class="entry">
-						<img
-							:src="playlist.images[0].url"
-							:width="250"
-							:height="250"
-							class="playlist-img"
-						/>
-
-						<ol>
-							<li
-								v-for="track in playlist.tracksConnection.nodes"
-								:key="track.playlistsConnection"
-							>
-								<span class="track-name">{{ track.name }}</span> <br />
-								<span
-									class="artist-name"
-									v-for="artist in track.artists"
-									:key="artist.tracks"
-								>
-									{{ artist.name }}
-								</span>
-							</li>
-						</ol>
-					</div>
-				</article>
-			</div>
+		Home
 		</div>
 	</Layout>
 </template>
 
-<page-query>
-{
-  oneGraph {
-    spotify {
-      me {
-        id
-        playlistsConnection {
-          nodes {
-            id
-            images {
-              url
-            }
-            public
-            name
-            externalUrls {
-              spotify
-            }
-            tracksConnection {
-              nodes {
-                id
-                name
-                durationMs
-                artists {
-                  name
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
 
-</page-query>
 
 
 
@@ -89,40 +15,8 @@ export default {
 	metaInfo: {
 		title: "Playlists",
 	},
-	data() {
-		return {
-			search: "",
-		};
-	},
-	computed: {
-		searchResults() {
-			return this.$page.oneGraph.spotify.me.playlistsConnection.nodes.filter(
-				(playlist) => {
-					if (!playlist.public) return;
 
-					const searchTerm = this.search.toLowerCase().trim();
-					const playlistNameIncludes = playlist.name
-						.toLowerCase()
-						.includes(searchTerm);
 
-					const trackNameIncludes = playlist.tracksConnection.nodes.some(
-						(track) => track.name.toLowerCase().includes(searchTerm)
-					);
-
-					const artistNameIncludes = playlist.tracksConnection.nodes.some(
-						({ artists }) =>
-							artists.some((artist) =>
-								artist.name.toLowerCase().includes(searchTerm)
-							)
-					);
-
-					return (
-						playlistNameIncludes || artistNameIncludes || trackNameIncludes
-					);
-				}
-			);
-		},
-	},
 };
 </script>
 
