@@ -8,7 +8,7 @@ exports.handler = async event => {
   // accessToken = event.headers["authorization"]?.split(" ")[1]
 
   //// If you want to use the API with your own access token:
-  // accessToken = event.authlifyToken
+  accessToken = event.authlifyToken
 
   const eventBodyJson = JSON.parse(event.body || "{}");
 
