@@ -7,22 +7,22 @@
 module.exports = {
   siteName: 'Gridsome',
   plugins: [
-    {
-      use: '@gridsome/source-graphql',
-      options: {
-        url: `https://gridsome-spotify-matrix.netlify.app/api/latestTracks`,
-        fieldName: 'oneGraph',
-        typeName: 'ONEGRAPH',
+    // {
+    //   use: '@gridsome/source-graphql',
+    //   options: {
+    //     url: `https://gridsome-spotify-matrix.netlify.app/api/latestTracks`,
+    //     fieldName: 'oneGraph',
+    //     typeName: 'ONEGRAPH',
 
-        // headers: {
-        //   Authorization: `Bearer ${process.env.SPOTIFY_TOKEN}`,
-        // },
-				// remark: {
-        //   plugins: [
-				// 		'@silvenon/remark-smartypants',
-				// 	]
-        // },
-      },
-    },
+    //     // headers: {
+    //     //   Authorization: `Bearer ${process.env.SPOTIFY_TOKEN}`,
+    //     // },
+		// 		// remark: {
+    //     //   plugins: [
+		// 		// 		'@silvenon/remark-smartypants',
+		// 		// 	]
+    //     // },
+    //   },
+    // },
   ]
 }
