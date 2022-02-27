@@ -79,6 +79,37 @@ const operationsDoc = `query latestTracks @netlify(id: """e7a65cb8-d892-4a9f-8ba
     }
   }
 }
+
+query MyPlaylists @netlify(id: """48046537-2a65-4655-b354-581ef38c5bf3""", doc: """An empty query to start from""") {
+  me {
+    spotify {
+      id
+      playlistsConnection {
+        nodes {
+          id
+          images {
+            url
+          }
+          public
+          name
+          externalUrls {
+            spotify
+          }
+          tracksConnection {
+            nodes {
+              id
+              name
+              durationMs
+              artists {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
 `;
 
 const httpFetch = (siteId, options) => {
@@ -186,6 +217,15 @@ exports.fetchLatestTracks = (variables, options) => {
   });
 };
 
+exports.fetchMyPlaylists = (variables, options) => {
+  return fetchNetlifyGraph({
+    query: operationsDoc,
+    operationName: "MyPlaylists",
+    variables: variables,
+    options: options || {}
+  });
+};
+
 /**
  * The generated NetlifyGraph library with your operations
  */
@@ -193,7 +233,11 @@ const functions = {
   /**
    * An example query to start with.
    */
-  fetchLatestTracks: exports.fetchLatestTracks
+  fetchLatestTracks: exports.fetchLatestTracks,
+  /**
+   * An empty query to start from
+   */
+  fetchMyPlaylists: exports.fetchMyPlaylists
 };
 
 exports.default = functions;
