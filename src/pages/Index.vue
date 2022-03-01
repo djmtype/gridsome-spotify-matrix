@@ -13,11 +13,19 @@
 				</form>
 
 				<article
-					v-for="playlist in $page.allMyPlaylists.edges"
+					v-for="playlist in searchResults"
 					:key="playlist.id"
 				>
 					<div class="entry">
-						<h2>{{ playlist.node.name }}</h2>
+						<h2>
+							<a
+							:href="playlist.node.externalUrls.spotify"
+							target="_blank"
+							rel="noopener"
+							v-html="playlist.node.name" />
+							</h2>
+
+						
 					</div>
 
 					<div class="entry">
@@ -98,7 +106,38 @@ export default {
 			search: '',
 		};
 	},
-	computed: {},
+		computed: {
+		searchResults() {
+
+// return this.$page.oneGraph.spotify.me.playlistsConnection.nodes
+
+			return this.$page.allMyPlaylists.edges.filter(
+				(playlist) => {
+					if (!playlist.node.public) return;
+
+					const searchTerm = this.search.toLowerCase().trim();
+					const playlistNameIncludes = playlist.node.name
+						.toLowerCase()
+						.includes(searchTerm);
+
+					const trackNameIncludes = playlist.node.tracksConnection.nodes.some(
+						(track) => track.name.toLowerCase().includes(searchTerm)
+					);
+
+					const artistNameIncludes = playlist.node.tracksConnection.nodes.some(
+						({ artists }) =>
+							artists.some((artist) =>
+								artist.name.toLowerCase().includes(searchTerm)
+							)
+					);
+
+					return (
+						playlistNameIncludes || artistNameIncludes || trackNameIncludes
+					);
+				}
+			);
+		},
+	},
 };
 </script>
 

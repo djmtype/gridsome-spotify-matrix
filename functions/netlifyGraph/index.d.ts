@@ -202,6 +202,15 @@ export type MyPlaylists = {
                    */
                   name: string;
                 }>;
+                /**
+                 * Known external URLs for this track.
+                 */
+                externalUrls: {
+                  /**
+                   * The Spotify URL for the object.
+                   */
+                  spotify: string;
+                };
               }>;
             };
           }>;
