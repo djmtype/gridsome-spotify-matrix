@@ -143,6 +143,10 @@ export type MyPlaylists = {
              */
             id: string;
             /**
+             * The name of the playlist.
+             */
+            name: string;
+            /**
              * Images for the playlist. The array may be empty or contain up to three images. The images are returned by size in descending order. See Working with Playlists. Note: If returned, the source URL for the image (url) is temporary and will expire in less than a day.
              */
             images: Array<{
@@ -150,15 +154,19 @@ export type MyPlaylists = {
                * The source URL of the image.
                */
               url: string;
+              /**
+               * The image width in pixels. If unknown: `null` or not returned.
+               */
+              width: number;
+              /**
+               * The image height in pixels. If unknown: `null` or not returned.
+               */
+              height: number;
             }>;
             /**
              * The playlist’s public/private status: true the playlist is public, false the playlist is private, null the playlist status is not relevant. For more about public/private status, see Working with Playlists
              */
             public: boolean;
-            /**
-             * The name of the playlist.
-             */
-            name: string;
             /**
              * Known external URLs for this playlist.
              */

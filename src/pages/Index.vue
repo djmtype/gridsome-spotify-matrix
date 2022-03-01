@@ -1,36 +1,84 @@
 <template>
 	<Layout>
 		<div>
+			<div class="entry-list">
+				<form>
+					<input
+						type="search"
+						name="search"
+						id="search"
+						placeholder="Type something..."
+						v-model="search"
+					/>
+				</form>
 
-			
+				<article
+					v-for="playlist in $page.allMyPlaylists.edges"
+					:key="playlist.id"
+				>
+					<div class="entry">
+						<h2>{{ playlist.node.name }}</h2>
+					</div>
 
+					<div class="entry">
+						<img
+							:src="playlist.node.images[0].url"
+							:width="250"
+							:height="250"
+							class="playlist-img"
+						/>
 
-		<ul>
-			<li v-for="(item, index) in $page.allLatestTracks.edges" :key="index">
-			
-			<a :href="item.node.track.externalUrls.spotify" target="_blank" rel="noopener">{{ item.node.track.name }}</a> by {{ item.node.track.artists[0].name }}
-			
-			</li>
-		</ul>
+						<ol>
+							<li
+								v-for="track in playlist.node.tracksConnection.nodes"
+								:key="track.playlistsConnection"
+							>
+								<span class="track-name">{{ track.name }}</span> <br />
+								<span
+									class="artist-name"
+									v-for="artist in track.artists"
+									:key="artist.tracks"
+								>
+									{{ artist.name }}
+								</span>
+							</li>
+						</ol>
+
+					</div>
+					<!-- <a
+							:href="playlist.node.externalUrls.spotify"
+							target="_blank"
+							rel="noopener"
+							>{{ playlist.node.name }}</a
+						> -->
+				</article>
+			</div>
 		</div>
 	</Layout>
 </template>
 
 <page-query>
 query MyQuery {
-  allLatestTracks {
+  allMyPlaylists(order: ASC) {
     edges {
       node {
         id
-        playedAt(format: "MM-DD-YYYY")
-        track {
-					artists {
+        name
+        public
+        externalUrls {
+          spotify
+        }
+        images {
+          url
+        }
+        tracksConnection {
+          nodes {
             name
-          }
-          name
-          
-          externalUrls {
-            spotify
+            id
+            durationMs
+            artists {
+              name
+            }
           }
         }
       }
@@ -39,16 +87,18 @@ query MyQuery {
 }
 </page-query>
 
-
-
 <script>
 export default {
 	metaInfo: {
-		title: "Playlists",
+		title: 'Playlists',
 	},
-	
 
-
+	data() {
+		return {
+			search: '',
+		};
+	},
+	computed: {},
 };
 </script>
 
@@ -95,9 +145,9 @@ img {
 	height: auto;
 }
 
-input[type="search"] {
+input[type='search'] {
 	font-size: 2em;
-	padding: .25em .5em;
+	padding: 0.25em 0.5em;
 	width: 100%;
 }
 

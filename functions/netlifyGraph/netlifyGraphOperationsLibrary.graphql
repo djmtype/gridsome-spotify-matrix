@@ -32,14 +32,16 @@ query MyPlaylists @netlify(id: """48046537-2a65-4655-b354-581ef38c5bf3""", doc: 
   me {
     spotify {
       id
-      playlistsConnection {
+      playlistsConnection(order: ASC) {
         nodes {
           id
+          name
           images {
             url
+            width
+            height
           }
           public
-          name
           externalUrls {
             spotify
           }

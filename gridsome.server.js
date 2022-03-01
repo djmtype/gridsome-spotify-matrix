@@ -7,6 +7,7 @@
 const axios = require('axios');
 
 module.exports = function (api) {
+
   api.loadSource(async actions => {
     const { data } = await axios.get('https://gridsome-spotify-matrix.netlify.app/api/latestTracks')
 
@@ -28,6 +29,42 @@ module.exports = function (api) {
     // console.log(data.latestTracksData.me.spotify.recentlyPlayed)
     
   })
+
+
+
+
+
+
+
+  api.loadSource(async actions => {
+    const { data } = await axios.get('https://gridsome-spotify-matrix.netlify.app/api/MyPlaylists')
+
+    const contentType = actions.addCollection({
+      typeName: 'MyPlaylists'
+    })
+
+    // console.log(data)
+
+    for (const playlist of data.MyPlaylistsData.me.spotify.playlistsConnection.nodes) {
+      contentType.addNode({
+        // id: track.id,
+        // name: track.name
+         ...playlist
+      })
+      
+    }
+
+    // console.log(data.latestTracksData.me.spotify.recentlyPlayed)
+    
+  })
+
+
+
+
+
+
+
+
 
 
   api.createPages(({ createPage }) => {
