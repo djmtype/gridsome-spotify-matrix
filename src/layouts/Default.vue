@@ -22,6 +22,12 @@ query {
 </static-query>
 
 <style>
+.highlight {
+	background-color: gold;
+	display: inline-block;
+  font-weight: bold;
+  color: black;
+}
 /* html {
     filter: invert(100%);
 }

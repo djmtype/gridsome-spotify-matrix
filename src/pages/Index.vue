@@ -22,7 +22,7 @@
 							:href="playlist.node.externalUrls.spotify"
 							target="_blank"
 							rel="noopener"
-							v-html="playlist.node.name" />
+							v-html="$options.filters.highlight(playlist.node.name, search)" />
 							</h2>
 
 						
@@ -41,13 +41,14 @@
 								v-for="track in playlist.node.tracksConnection.nodes"
 								:key="track.playlistsConnection"
 							>
-								<span class="track-name">{{ track.name }}</span> <br />
+								<span class="track-name" v-html="$options.filters.highlight(track.name, search)" />
+									 <br />
 								<span
 									class="artist-name"
 									v-for="artist in track.artists"
 									:key="artist.tracks"
 								>
-									{{ artist.name }}
+									<span v-html="$options.filters.highlight(artist.name, search)" />
 								</span>
 							</li>
 						</ol>
@@ -107,6 +108,7 @@ export default {
 		};
 	},
 		computed: {
+
 		searchResults() {
 
 // return this.$page.oneGraph.spotify.me.playlistsConnection.nodes
@@ -142,6 +144,9 @@ export default {
 </script>
 
 <style scoped>
+
+
+
 article {
 	margin-top: 3rem;
 	border-top: 1px dashed black;
@@ -195,4 +200,6 @@ form {
 	position: sticky;
 	top: 0;
 }
+
+
 </style>
