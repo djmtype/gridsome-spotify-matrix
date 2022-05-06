@@ -122,12 +122,16 @@ export function fetchLatestTracks(
   options?: NetlifyGraphFunctionOptions
 ): Promise<LatestTracks>;
 
+export type MyPlaylistsInput = {
+  page: string;
+};
+
 export type MyPlaylists = {
   /**
    * Any data from the function will be returned here
    */
   data: {
-    me: {
+    pageOne: {
       spotify: {
         /**
          * The Spotify user ID for the user.
@@ -147,26 +151,17 @@ export type MyPlaylists = {
              */
             name: string;
             /**
-             * Images for the playlist. The array may be empty or contain up to three images. The images are returned by size in descending order. See Working with Playlists. Note: If returned, the source URL for the image (url) is temporary and will expire in less than a day.
-             */
-            images: Array<{
-              /**
-               * The source URL of the image.
-               */
-              url: string;
-              /**
-               * The image width in pixels. If unknown: `null` or not returned.
-               */
-              width: number;
-              /**
-               * The image height in pixels. If unknown: `null` or not returned.
-               */
-              height: number;
-            }>;
-            /**
              * The playlist’s public/private status: true the playlist is public, false the playlist is private, null the playlist status is not relevant. For more about public/private status, see Working with Playlists
              */
             public: boolean;
+            /**
+             * The playlist description. Only returned for modified, verified playlists, otherwise null.
+             */
+            description: string;
+            /**
+             * The Spotify URI for the playlist.
+             */
+            uri: string;
             /**
              * Known external URLs for this playlist.
              */
@@ -176,43 +171,84 @@ export type MyPlaylists = {
                */
               spotify: string;
             };
-            tracksConnection: {
+            /**
+             * Images for the playlist. The array may be empty or contain up to three images. The images are returned by size in descending order. See Working with Playlists. Note: If returned, the source URL for the image (url) is temporary and will expire in less than a day.
+             */
+            images: Array<{
               /**
-               * PlaylistTracks
+               * The image height in pixels. If unknown: `null` or not returned.
                */
-              nodes: Array<{
-                /**
-                 * The Spotify ID for the track.
-                 */
-                id: string;
-                /**
-                 * The name of the track.
-                 */
-                name: string;
-                /**
-                 * The track length in milliseconds.
-                 */
-                durationMs: number;
-                /**
-                 * The artists who performed the track. Each artist object includes a link in href to more detailed information about the artist.
-                 */
-                artists: Array<{
-                  /**
-                   * The name of the artist.
-                   */
-                  name: string;
-                }>;
-                /**
-                 * Known external URLs for this track.
-                 */
-                externalUrls: {
-                  /**
-                   * The Spotify URL for the object.
-                   */
-                  spotify: string;
-                };
-              }>;
+              height: number;
+              /**
+               * The image width in pixels. If unknown: `null` or not returned.
+               */
+              width: number;
+              /**
+               * The source URL of the image.
+               */
+              url: string;
+            }>;
+          }>;
+        };
+      };
+    };
+    pageTwo: {
+      spotify: {
+        /**
+         * The Spotify user ID for the user.
+         */
+        id: string;
+        playlistsConnection: {
+          /**
+           * Playlist
+           */
+          nodes: Array<{
+            /**
+             * The Spotify ID for the playlist.
+             */
+            id: string;
+            /**
+             * The name of the playlist.
+             */
+            name: string;
+            /**
+             * The playlist’s public/private status: true the playlist is public, false the playlist is private, null the playlist status is not relevant. For more about public/private status, see Working with Playlists
+             */
+            public: boolean;
+            /**
+             * The playlist description. Only returned for modified, verified playlists, otherwise null.
+             */
+            description: string;
+            /**
+             * The Spotify URI for the playlist.
+             */
+            uri: string;
+            /**
+             * Known external URLs for this playlist.
+             */
+            externalUrls: {
+              /**
+               * The Spotify URL for the object.
+               */
+              spotify: string;
             };
+            /**
+             * Images for the playlist. The array may be empty or contain up to three images. The images are returned by size in descending order. See Working with Playlists. Note: If returned, the source URL for the image (url) is temporary and will expire in less than a day.
+             */
+            images: Array<{
+              /**
+               * The image height in pixels. If unknown: `null` or not returned.
+               */
+              height: number;
+              /**
+               * The image width in pixels. If unknown: `null` or not returned.
+               */
+              width: number;
+              /**
+               * The source URL of the image.
+               */
+              url: string;
+            }>;
           }>;
         };
       };
@@ -228,9 +264,6 @@ export type MyPlaylists = {
  * An empty query to start from
  */
 export function fetchMyPlaylists(
-  /**
-   * Pass `{}` as no variables are defined for this function.
-   */
-  variables: Record<string, never>,
+  variables: MyPlaylistsInput,
   options?: NetlifyGraphFunctionOptions
 ): Promise<MyPlaylists>;

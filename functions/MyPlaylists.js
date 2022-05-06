@@ -8,14 +8,28 @@ exports.handler = async event => {
   // accessToken = event.headers["authorization"]?.split(" ")[1]
 
   //// If you want to use the API with your own access token:
-   accessToken = event.authlifyToken
+  accessToken = event.authlifyToken
 
   const eventBodyJson = JSON.parse(event.body || "{}");
+
+  const page = eventBodyJson?.page;
+
+  if (page === undefined || page === null) {
+    return {
+      statusCode: 422,
+      body: JSON.stringify({
+        error: "You must supply parameters for: `page`"
+      })
+    };
+  }
 
   const {
     errors: MyPlaylistsErrors,
     data: MyPlaylistsData
-  } = await NetlifyGraph.fetchMyPlaylists({}, { accessToken: accessToken });
+  } = await NetlifyGraph.fetchMyPlaylists(
+    { page: page },
+    { accessToken: accessToken }
+  );
 
   if (MyPlaylistsErrors) {
     console.error(JSON.stringify(MyPlaylistsErrors, null, 2));
@@ -44,11 +58,11 @@ exports.handler = async event => {
 
 /**
 async function fetchMyPlaylists(netlifyGraphAuth, params) {
-  const {} = params || {};
+  const {page} = params || {};
   const resp = await fetch(`/.netlify/functions/MyPlaylists`,
     {
       method: "POST",
-      body: JSON.stringify({}),
+      body: JSON.stringify({"page": page}),
       headers: {
         ...netlifyGraphAuth?.authHeaders()
       }

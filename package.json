@@ -12,5 +12,8 @@
     "axios": "^0.26.0",
     "graphql": "github:djmtype/graphql",
     "gridsome": "^0.7.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^10.3.0"
   }
 }
