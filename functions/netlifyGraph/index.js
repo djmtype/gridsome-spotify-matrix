@@ -81,7 +81,7 @@ const operationsDoc = `query latestTracks @netlify(id: """e7a65cb8-d892-4a9f-8ba
 }
 
 query MyPlaylists($page: String!) @netlify(id: """48046537-2a65-4655-b354-581ef38c5bf3""", doc: """An empty query to start from""") {
-  pageOne: me {
+  me {
     spotify {
       id
       playlistsConnection {
@@ -99,30 +99,20 @@ query MyPlaylists($page: String!) @netlify(id: """48046537-2a65-4655-b354-581ef3
             width
             url
           }
-          ...Playlists
-        }
-      }
-    }
-  }
-  pageTwo: me {
-    spotify {
-      id
-      playlistsConnection(after: $page) {
-        nodes {
-          id
-          name
-          public
-          description
-          uri
-          externalUrls {
-            spotify
+          tracksConnection {
+            nodes {
+              id
+              name
+              durationMs
+              artists {
+                name
+              }
+              externalUrls {
+                spotify
+              }
+              previewUrl
+            }
           }
-          images {
-            height
-            width
-            url
-          }
-          ...Playlists
         }
       }
     }

@@ -155,7 +155,13 @@ article {
 .entry {
 	gap: 1.5rem;
 	display: grid;
+	/* grid-template-columns: minmax(25%, 250px) 1fr; */
+}
+
+@media (min-width: 60rem) {
+	.entry {
 	grid-template-columns: minmax(25%, 250px) 1fr;
+	}
 }
 
 h2 {
@@ -165,8 +171,15 @@ h2 {
 }
 ol {
 	padding-left: 1em;
-	columns: 2;
+	
 	margin-top: 0;
+}
+
+@media (min-width: 36rem) {
+	ol {
+	columns: 2;
+	}
+	
 }
 ol > li {
 	padding: 0.3em 1em 0.3em 0.5em;
@@ -196,9 +209,10 @@ input[type='search'] {
 }
 
 form {
-	padding-top: 2rem;
+	padding: 2rem 0;
 	position: sticky;
 	top: 0;
+	background: whitesmoke;
 }
 
 
