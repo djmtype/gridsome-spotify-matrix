@@ -5,3 +5,11 @@ functions = 'functions'
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
+
+[dev]
+  targetPort = 8080
+
+[graph]
+  codeGenerator = "netlify-builtin:gridsome"
+
+
